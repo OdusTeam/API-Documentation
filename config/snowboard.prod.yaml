@@ -1,0 +1,14 @@
+html:
+  stylesheets:
+    - assets/css/style.css
+  playground:
+    enabled: true
+    env: production
+    environments:
+      production:
+        url: https://api.odus.ai/api/
+        auth:
+          name: apikey
+          options:
+            key: api-dev-key
+            header: X-Api-Key

@@ -8,6 +8,12 @@
             "node-sass assets/css/*.scss assets/css/style.css",
             "echo 'Compiling bluepring' with snowboard",
             "snowboard html -o public/index.html -c config/snowboard.yaml docs/*.apib"
+        ],
+        "very-build": [
+            "echo 'Compiling scss'",
+            "node-sass assets/css/*.scss assets/css/style.css",
+            "echo 'Compiling bluepring' with snowboard",
+            "snowboard html -o public/index.html -c config/snowboard.prod.yaml docs/*.apib"
         ]
     }
 }

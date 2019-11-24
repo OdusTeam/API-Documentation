@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "dredd": "^12.1.0",
+    "getenv": "^1.0.0",
+    "node-sass": "^4.13.0",
+    "snowboard": "^3.5.4"
+  }
+}

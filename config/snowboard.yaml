@@ -1,3 +1,21 @@
 html:
   stylesheets:
     - assets/css/style.css
+  playground:
+    enabled: true
+    env: development
+    environments:
+      development:
+        url: http://127.0.0.1:8000/api/
+        auth:
+          name: apikey
+          options:
+            key: <api-key>
+            header: X-AUTH-TOKEN
+      staging:
+        url: https://he110.odus.ai/api/
+        auth:
+          name: apikey
+          options:
+            key: <api-key>
+            header: X-AUTH-TOKEN
