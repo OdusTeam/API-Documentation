@@ -18,13 +18,43 @@ https://api.odus.ai/api
 ## Error States
 The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
 
+# Group Common
+
+## Token [/token]
++ Model (application/json)
+    + Attributes (Token)
+
+### Check [GET]
++ Response 200 (application/json)
+    + Attributes (Token)
+
+## Storage [/files]
++ Model (application/json)
+    + Attributes (Attachment)
+### Upload [POST]
++ Request (multipart/form-data; boundary=---BOUNDARY)
+
+        -----BOUNDARY
+        Content-Disposition: form-data; name="file"; filename="image.jpg"
+        Content-Type: image/jpeg
+        Content-Transfer-Encoding: base64
+
+        /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+        HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+        MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
+        AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
+        AAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AL+AD//Z
+        -----BOUNDARY
+
++ Response 200 (application/json)
+    + Attributes (Attachment)
+
 # Group Bots
 
-In this section you will find all the methods, which you need to work with bots.
+## Bot Collection [/bots]
 
 **These methods requires token with account access**
 
-## Bot Collection [/bots]
 + Model (application/json)
     + Attributes
         + bots (array[Bot])
@@ -42,6 +72,10 @@ In this section you will find all the methods, which you need to work with bots.
     + Attributes (Bot)
 
 ### Get [GET]
++ Response 200 (application/json)
+    + Attributes (Bot)
+
+## Train [PATCH]
 + Response 200 (application/json)
     + Attributes (Bot)
 
@@ -163,7 +197,7 @@ Collection of all bot's clients.
 + Model (application/json)
     + Attributes (Message)
 
-### Text [POST]
+### Text messages [POST]
 To send simple text message, you need to provide only `message` parameter. See other requests to find the way how to send buttons and attachments.
 + Request (application/json)
     + Attributes (Message)
@@ -181,8 +215,12 @@ To send simple text message, you need to provide only `message` parameter. See o
         + channel (Channel)
             + type: `fb`
 
-+ Request (application/json)
++ Response 400 (application/json)
+    + Attributes
+        + error (ExceptionChannelNotConfigured)
+### Buttons [POST]
 If it's required, you can provide several types of buttons for you message.
++ Request (application/json)
     + Attributes (Message)
         + message: `Message can't be empty!`
         + buttons (array[Button])
@@ -221,9 +259,12 @@ If it's required, you can provide several types of buttons for you message.
         + client (Client)
         + channel (Channel)
             + type: `fb`
-    
+
+### Attachments [POST]
+
+You can send any attachments but requires url of file. If you need to upload your own file read **Common -> Storage** section.
+
 + Request (application/json)
-You can send any attachments^ but requires url of file. If you need to upload your own file read ['Upload file'](https://google.com)
     + Attributes (Message)
         + message: `Message can be empty in this case. Just set it to null`
         + buttons: null
@@ -242,10 +283,6 @@ You can send any attachments^ but requires url of file. If you need to upload yo
         + client (Client)
         + channel (Channel)
             + type: `fb`
-
-+ Response 400 (application/json)
-    + Attributes
-        + error (ExceptionChannelNotConfigured)
 
 ## Broadcast collection [/bot/{botId}/broadcasts]
 + Parameters
@@ -318,6 +355,8 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 + id: 105 (number) - Uniq bot ID
 + name: `API Demo bot` (string) - Your bot's name
 + avatar: `https://panel.odus.ai/bots/81/bot_file_3b672035fbed7a9d93c691469a6a75a1.png` (string, optional) - Url of bot's avatar or null
++ users: 1024 (number) - Amount of all users
++ weekly_active: 726 (number) - Amount of weekly active users
 
 ### Client
 + id: 999 (number) - Uniq client ID
@@ -346,12 +385,12 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 
 ### Message
 + message: `Simple text example` (string, optional) - Your message
-+ attachment (Attachment, optional, nullable) - Attachent url, if required 
++ attachment (Attachment, optional, nullable) - Attachment url, if required 
 + buttons (array[Button], optional, nullable) - Buttons
 
 ### Button
 + type (enum, required)
-    - text
+    - text (string) - Simple text button. When user uses it, it sends text message
     - link
     - answer
     - form
@@ -374,6 +413,17 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 + segments (array[number])
 + datetime: `2014-11-11T08:40:51.620Z` (string, optional, nullable) - Date and time, when broadcast should be sent 
 
+### Token
++ name: `Demo token` (string, required)
++ lifetime: `2020-11-11T08:40:51.620Z` (string, optional)
++ access (enum, required)
+    - readonly
+    - full
++ type (enum, required)
+    - bot
+    - account
++ target: 546 (number) - Bot or Account ID.
+
 ### ExceptionSegmentNotFound
 + code: `segment_not_found` (string)
 + message: `Segment doesn't exist` (string)
@@ -391,5 +441,5 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 + message: `Broadcast can't be edited` (string)
 
 ### ExceptionChannelNotConfigured
-+ code: `channel_not_configured`
-+ message: `Requested channel not configured`
++ code: `channel_not_configured` (string)
++ message: `Requested channel not configured` (string)
