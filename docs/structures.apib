@@ -28,4 +28,24 @@
     - web (string) - Web-widget or landing page-bot
 + is_configured: true (boolean, required) - Is channel configured for bot or already deleted
 
+### Message
++ message: `Simple text example` (string, optional) - Your message
++ attachment (Attachment, optional, nullable) - Attachent url, if required 
++ buttons (array[Button], optional, nullable) - Buttons
+
+### Button
++ type (enum, required)
+    - text
+    - link
+    - answer
+    - form
++ title: `Button title` (string, required) - Text of button
++ target: (string, optional, nullable)
+
+### Attachment
++ type (enum, required)
+    - image
+    - file
++ url: (string, required) - Url of file
+
 <!-- include(exceptions.apib) -->

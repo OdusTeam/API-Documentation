@@ -2,21 +2,21 @@
 + Response 200 (application/json)
     + Attributes (array[Segment])
 
-### Get segment [GET /segment/{id}]
+### Get [GET /segment/{id}]
 + Parameters
     + id: 1050 (number, required) - Uniq segment ID
 
 + Response 200 (application/json)
     + Attributes (Segment)
 
-### Delete segment [DELETE /segment/{id}]
+### Delete [DELETE /segment/{id}]
 + Parameters
     + id: 1050 (number, required) - Uniq segment ID
 
 + Response 200 (application/json)
     + Attributes (Segment)
 
-### Add client to segment [PUT /segment/{segmentId}/client/{clientId}]
+### Add client [PUT /segment/{segmentId}/client/{clientId}]
 + Parameters
     + segmentId: 1050 (number, required) - Uniq segment ID
     + clientId: 999 (number, required) - Uniq client ID
@@ -34,7 +34,7 @@
     + Attributes
         + error (E_ClientNotFound)
 
-### Remove client from segment [DELETE /segment/{segmentId}/client/{clientId}]
+### Remove client [DELETE /segment/{segmentId}/client/{clientId}]
 + Parameters
     + segmentId: 1050 (number, required) - Uniq segment ID
     + clientId: 999 (number, required) - Uniq client ID
