@@ -1,8 +1,12 @@
 ### List [GET]
++ Parameters
+    + botId (number) - Uniq bot ID
 + Response 200 (application/json)
     + Attributes (array[Client])
 
 ### Filtered list [POST]
++ Parameters
+    + botId (number) - Uniq bot ID
 + Request (application/json)
     + Attributes
         + locale: `US` (string, optional)
@@ -15,16 +19,18 @@
 + Response 200 (application/json)
     + Attributes (array[Client])
 
-### Get [GET /client/{id}]
+### Get [GET /{clientId}]
 + Parameters
-    + id: 999 (number, required) - Uniq client ID
+    + botId (number) - Uniq bot ID
+    + clientId: 999 (number, required) - Uniq client ID
 
 + Response 200 (application/json)
     + Attributes (Client)
 
-### Delete [DELETE /client/{id}]
+### Delete [DELETE /{clientId}]
 + Parameters
-    + id: 999 (number, required) - Uniq client ID
+    + botId (number) - Uniq bot ID
+    + clientId: 999 (number, required) - Uniq client ID
 
 + Response 200 (application/json)
     + Attributes (Client)
