@@ -1,0 +1,445 @@
+FORMAT: 1A
+HOST: https://api.odus.ai/api
+
+# Odus API
+Odus API is organized around [REST](https://en.wikipedia.org/wiki/Representational_State_Transfer). Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+
+## Authentication
+All requiests requires authentication via `X-AUTH-TOKEN` header. You can find **API tokens** section in your [Odus](https://panel.odus.ai/) account.
+
+## Base URL
+
+All the URLs referenced in the documentation have the following base:
+
+```json
+https://api.odus.ai/api
+```
+
+## Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+
+# Group Common
+
+## Token [/token]
++ Model (application/json)
+    + Attributes (Token)
+
+### Check [GET]
++ Response 200 (application/json)
+    + Attributes (Token)
+
+## Storage [/files]
++ Model (application/json)
+    + Attributes (Attachment)
+### Upload [POST]
++ Request (multipart/form-data; boundary=---BOUNDARY)
+
+        -----BOUNDARY
+        Content-Disposition: form-data; name="file"; filename="image.jpg"
+        Content-Type: image/jpeg
+        Content-Transfer-Encoding: base64
+
+        /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+        HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+        MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
+        AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
+        AAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AL+AD//Z
+        -----BOUNDARY
+
++ Response 200 (application/json)
+    + Attributes (Attachment)
+
+# Group Bots
+
+## Bot Collection [/bots]
+
+**These methods requires token with account access**
+
++ Model (application/json)
+    + Attributes
+        + bots (array[Bot])
+
+### List [GET]
++ Response 200 (application/json)
+    + Attributes
+        + bots (array[Bot])
+
+## Bot [/bot/{botId}]
++ Parameters
+    + botId (number, required) - Uniq bot ID
+
++ Model (application/json)
+    + Attributes (Bot)
+
+### Get [GET]
++ Response 200 (application/json)
+    + Attributes (Bot)
+
+## Train [PATCH]
++ Response 200 (application/json)
+    + Attributes (Bot)
+
+# Group Client management
+
+Clients are your direct users, your customers. Use these methods to segmentate, add or delete them.
+
+## Client collection [/bot/{botId}/clients{?locale}{?channel}{?limit}{?offset}]
+Collection of all bot's clients.
+
++ Parameters
+    + botId (number) - Uniq bot ID
+
++ Model (application/json)
+    + Attributes
+        + clients (array[Client])
+
+### List [GET]
++ Parameters
+    + locale: `US` (string, optional) - Location code filter
+    + channel: `fb` (string, optional) - Channel type filter
+    + limit (number, optional) - Limit for collection results
+        + Default: 20
+    + offset: 0 (number, optional) - Offset for collection results
+        + Default: 0
++ Response 200 (application/json)
+    + Attributes 
+        + clients (array[Client])
+
+## Client [/bot/{botId}/client/{clientId}]
++ Parameters
+    + botId (number, required) - Uniq bot ID
+    + clientId: 999 (number, required) - Uniq client ID
+
++ Model (application/json)
+    + Attributes (Client)
+
+### Get [GET]
++ Response 200 (application/json)
+    + Attributes (Client)
+
+### Delete [DELETE]
++ Response 200 (application/json)
+    + Attributes (Client)
+
+# Group Segments
+
+## Segment Collection [/bot/{botId}/segments]
++ Parameters
+    + botId (number) - Uniq bot ID
+
++ Model (application/json)
+    + Attributes
+        + segments (array[Segment])
+
+### List [GET]
++ Response 200 (application/json)
+    + Attributes 
+        + segments (array[Segment])
+
+## Segment [/bot/{botId}/segment/{segmentId}]
++ Parameters
+    + botId (number) - Uniq bot ID
+    + segmentId: 1050 (number, required) - Uniq segment ID
+
++ Model (application/json)
+    + Attributes (Segment)
+
+### Get [GET]    
++ Response 200 (application/json)
+    + Attributes (Segment)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (ExceptionSegmentNotFound)
+
+### Delete [DELETE]
++ Response 200 (application/json)
+    + Attributes (Segment)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (ExceptionSegmentNotFound)
+
+### Add client [PUT /bot/{botId}/segment/{segmentId}/client/{clientId}]
++ Parameters
+    + clientId: 999 (number, required) - Uniq client ID
+
++ Response 200 (application/json)
+    + Attributes
+        + segment (Segment)
+        + client (Client)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (ExceptionClientNotFound)
+
+### Remove client [DELETE /bot/{botId}/segment/{segmentId}/client/{clientId}]
++ Parameters
+    + clientId: 999 (number, required) - Uniq client ID
+
++ Response 200 (application/json)
+    + Attributes
+        + segment (Segment)
+        + client (Client)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (ExceptionClientNotFound)
+
+# Group Messaging
+
+## Instant [/bot/{botId}/message/client/{clientId}/channel/{chennelType}]
++ Parameters
+    + botId (number) - Uniq bot ID
+    + clientId: 999 (number, required) - Uniq client ID
+    + chennelType: `fb` (string, required) - Chosen channel type
+
++ Model (application/json)
+    + Attributes (Message)
+
+### Text messages [POST]
+To send simple text message, you need to provide only `message` parameter. See other requests to find the way how to send buttons and attachments.
++ Request (application/json)
+    + Attributes (Message)
+        + message: `Buttons and attachment are optional. If you don't want to use it, just set to null`
+        + buttons: null
+        + attachment: null
+
++ Response 201 (application/json)
+    + Attributes
+        + message (Message)
+            + message: `Buttons and attachment are optional. If you don't want to use it, just set to null`
+            + buttons: null
+            + attachment: null
+        + client (Client)
+        + channel (Channel)
+            + type: `fb`
+
++ Response 400 (application/json)
+    + Attributes
+        + error (ExceptionChannelNotConfigured)
+### Buttons [POST]
+If it's required, you can provide several types of buttons for you message.
++ Request (application/json)
+    + Attributes (Message)
+        + message: `Message can't be empty!`
+        + buttons (array[Button])
+            - (Button)
+                + type: `link`
+                + title: `This is url button`
+                + target: `https://odus.ai/`
+            - (Button)
+                + type: `answer`
+                + title: `Redirect to answer-block`
+                + target: `15`
+            - (Button)
+                + type: `form`
+                + title: `Redirect to form-block`
+                + target: `50`
+        + attachment: null
+
++ Response 201 (application/json)
+    + Attributes
+        + message (Message)
+            + message: `Message can't be empty!`
+            + buttons (array[Button])
+                - (Button)
+                    + type: `link`
+                    + title: `This is url button`
+                    + target: `https://odus.ai/`
+                - (Button)
+                    + type: `answer`
+                    + title: `Redirect to answer-block`
+                    + target: `15`
+                - (Button)
+                    + type: `form`
+                    + title: `Redirect to form-block`
+                    + target: `50`
+            + attachment: null
+        + client (Client)
+        + channel (Channel)
+            + type: `fb`
+
+### Attachments [POST]
+
+You can send any attachments but requires url of file. If you need to upload your own file read **Common -> Storage** section.
+
++ Request (application/json)
+    + Attributes (Message)
+        + message: `Message can be empty in this case. Just set it to null`
+        + buttons: null
+        + attachment (Attachment)
+            + type: `image`
+            + url: `https://odus.ai/img/header/2x/logo.png`
+
++ Response 201 (application/json)
+    + Attributes
+        + message (Message)
+            + message: `Message can be empty in this case. Just set it to null`
+            + buttons: null
+            + attachment (Attachment)
+                + type: `image`
+                + url: `https://odus.ai/img/header/2x/logo.png`
+        + client (Client)
+        + channel (Channel)
+            + type: `fb`
+
+## Broadcast collection [/bot/{botId}/broadcasts]
++ Parameters
+    + botId (number) - Uniq bot ID
+    
++ Model (application/json)
+    + Attributes
+        + broadcasts (array[Broadcast])
+
+### List [GET /bot/{botId}/broadcasts{?status}{?channels}{?segments}{?limit}{?offset}]
++ Parameters
+    + status (string, optional) - Status filter for broadcasts
+    + channels (array[string], optional) - Channels filter for broadcasts
+    + segments (array[string], optional) - Segments filter for broadcasts
+    + limit (number, optional) - Limit for broadcasts results
+        + Default: 20
+    + offset: 0 (number, optional) - Offset for Broadcast results
+        + Default: 0
+
++ Response 200 (application/json)
+    + Attributes (array[Broadcast])
+
+### Create [POST]
+If you want to send broadcast imediatly, set `datetime` property to `null`.
+
++ Request
+    + Attributes (Broadcast)
+
++ Response 201 (application/json)
+    + Attributes (Broadcast)
+
+## Broadcast [/bot/{botId}/broadcast/{broadcastId}]
++ Parameters
+    + botId (number, required) - Uniq bot ID
+    + broadcastId (number, required) - Uniq broadcast ID
+
++ Model (application/json)
+    + Attributes (Broadcast)
+
+### Get [GET]
++ Response 200 (application/json)
+    + Attributes (Broadcast)
++ Response 404 (application/json)
+    + Attributes
+        + error (ExceptionBroadcastNotFound)
+
+### Delete [DELETE]
++ Response 200 (application/json)
+    + Attributes (Broadcast)
++ Response 404 (application/json)
+    + Attributes
+        + error (ExceptionBroadcastNotFound)
++ Response 403 (application/json)
+    + Attributes
+        + error (ExceptionBroadcastCantBeEdited)
+
+### Update [PUT]
++ Response 200 (application/json)
+    + Attributes (Broadcast)
++ Response 404 (application/json)
+    + Attributes
+        + error (ExceptionBroadcastNotFound)
++ Response 403 (application/json)
+    + Attributes
+        + error (ExceptionBroadcastCantBeEdited)
+
+## Data Structures
+
+### Bot
++ id: 105 (number) - Uniq bot ID
++ name: `API Demo bot` (string) - Your bot's name
++ avatar: `https://panel.odus.ai/bots/81/bot_file_3b672035fbed7a9d93c691469a6a75a1.png` (string, optional) - Url of bot's avatar or null
++ users: 1024 (number) - Amount of all users
++ weekly_active: 726 (number) - Amount of weekly active users
+
+### Client
++ id: 999 (number) - Uniq client ID
++ name: `James E. Herman` (string) - Client's name
++ locale: `US` (string, optional) - Locale code (ISO 639-1), if detected 
++ signed_up: `2014-11-11T08:40:51.620Z` (string) - Date and time, when client signed signed up 
++ last_seen:` 2014-11-11T05:30:51.620Z` (string) - Date and time, when client was online
++ segments (array[Segment]) - Client's segments
++ channels (array[Channel])
+
+### Segment
++ id: 1050 (number) - Uniq segment ID
++ name: `Customers` (string, required) - Segment's name
++ description: `Those users who bought something at least once` (string, optional) - Description
++ users: 67 (number) - Amount of users in segment
+
+### Channel
++ type (enum, required)
+    - fb (string) - Facebook
+    - tg (string) - Telegram
+    - vk (string) - Vkontakte
+    - wa (string) - WhatsApp
+    - vox (string) - VoxImplant
+    - web (string) - Web-widget or landing page-bot
++ is_configured: true (boolean, required) - Is channel configured for bot or already deleted
+
+### Message
++ message: `Simple text example` (string, optional) - Your message
++ attachment (Attachment, optional, nullable) - Attachment url, if required 
++ buttons (array[Button], optional, nullable) - Buttons
+
+### Button
++ type (enum, required)
+    - text (string) - Simple text button. When user uses it, it sends text message
+    - link
+    - answer
+    - form
++ title: `Button title` (string, required) - Text of button
++ target (string, optional, nullable)
+
+### Attachment
++ type (enum, required)
+    - image
+    - file
++ url (string, required) - Url of file
+
+### Broadcast
++ status (enum, required)
+    - waiting
+    - done
+    - error
++ message (Message)
++ channels (array[string])
++ segments (array[number])
++ datetime: `2014-11-11T08:40:51.620Z` (string, optional, nullable) - Date and time, when broadcast should be sent 
+
+### Token
++ name: `Demo token` (string, required)
++ lifetime: `2020-11-11T08:40:51.620Z` (string, optional)
++ access (enum, required)
+    - readonly
+    - full
++ type (enum, required)
+    - bot
+    - account
++ target: 546 (number) - Bot or Account ID.
+
+### ExceptionSegmentNotFound
++ code: `segment_not_found` (string)
++ message: `Segment doesn't exist` (string)
+
+### ExceptionClientNotFound
++ code: `client_not_found` (string)
++ message: `Client doesn't exist` (string)
+
+### ExceptionBroadcastNotFound
++ code: `broadcast_not_found` (string)
++ message: `Broadcast doesn't exist` (string)
+
+### ExceptionBroadcastCantBeEdited
++ code: `broadcast_already_sent` (string)
++ message: `Broadcast can't be edited` (string)
+
+### ExceptionChannelNotConfigured
++ code: `channel_not_configured` (string)
++ message: `Requested channel not configured` (string)
