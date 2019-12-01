@@ -10,10 +10,17 @@ html:
         auth:
           name: apikey
           options:
-            key: <api-key>
+            key: 9fbbdf92b92d1147c7bbf3e66bb0b377
             header: X-AUTH-TOKEN
       staging:
         url: https://he110.odus.ai/api/
+        auth:
+          name: apikey
+          options:
+            key: 9fbbdf92b92d1147c7bbf3e66bb0b377
+            header: X-AUTH-TOKEN
+      production:
+        url: https://api.odus.ai/api/
         auth:
           name: apikey
           options:

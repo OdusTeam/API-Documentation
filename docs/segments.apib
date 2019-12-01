@@ -1,0 +1,53 @@
+### List [GET]
++ Response 200 (application/json)
+    + Attributes (array[Segment])
+
+### Get segment [GET /segment/{id}]
++ Parameters
+    + id: 1050 (number, required) - Uniq segment ID
+
++ Response 200 (application/json)
+    + Attributes (Segment)
+
+### Delete segment [DELETE /segment/{id}]
++ Parameters
+    + id: 1050 (number, required) - Uniq segment ID
+
++ Response 200 (application/json)
+    + Attributes (Segment)
+
+### Add client to segment [PUT /segment/{segmentId}/client/{clientId}]
++ Parameters
+    + segmentId: 1050 (number, required) - Uniq segment ID
+    + clientId: 999 (number, required) - Uniq client ID
+
++ Response 200 (application/json)
+    + Attributes
+        + segment (Segment)
+        + client (Client)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (E_SegmentNotFound)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (E_ClientNotFound)
+
+### Remove client from segment [DELETE /segment/{segmentId}/client/{clientId}]
++ Parameters
+    + segmentId: 1050 (number, required) - Uniq segment ID
+    + clientId: 999 (number, required) - Uniq client ID
+
++ Response 200 (application/json)
+    + Attributes
+        + segment (Segment)
+        + client (Client)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (E_SegmentNotFound)
+
++ Response 404 (application/json)
+    + Attributes
+        + error (E_ClientNotFound)

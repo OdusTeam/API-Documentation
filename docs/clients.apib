@@ -1,0 +1,36 @@
+### List [GET]
+
++ Request (application/json)
+    + Headers
+
+            X-AUTH-TOKEN: <your-token>
+
++ Response 200 (application/json)
+    + Attributes (array[Client])
+
+### Filtered list [POST]
++ Request (application/json)
+    + Attributes
+        + locale: `US` (string, optional)
+        + channel: `fb` (string, optional)
+        + limit (number, optional)
+            + Default: 20
+        + offset: 0 (number, optional)
+            + Default: 0
+
++ Response 200 (application/json)
+    + Attributes (array[Client])
+
+### Get client [GET /client/{id}]
++ Parameters
+    + id: 999 (number, required) - Uniq client ID
+
++ Response 200 (application/json)
+    + Attributes (Client)
+
+### Delete [DELETE /client/{id}]
++ Parameters
+    + id: 999 (number, required) - Uniq client ID
+
++ Response 200 (application/json)
+    + Attributes (Client)

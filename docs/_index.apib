@@ -1,0 +1,49 @@
+FORMAT: 1A
+HOST: https://api.odus.ai/api
+
+# Odus API
+Odus API is organized around [REST](https://en.wikipedia.org/wiki/Representational_State_Transfer). Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+
+## Authentication
+All requiests requires authentication via `X-AUTH-TOKEN` header. You can find **API tokens** section in your [Odus](https://panel.odus.ai/) account.
+
+## Base URL
+
+All the URLs referenced in the documentation have the following base:
+
+```json
+https://api.odus.ai/api
+```
+
+## Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+
+# Group Bots
+
+In this section you will find all the methods, which you need to work with bots.
+
+## Bots [/bots]
+
+### List [GET]
+
+Returns the list of all the bots, that are available for your user.
+
++ Response 200 (application/json)
+
+    + Attributes (array[Bot])
+
+# Group Clients
+
+Clients are your direct users, your customers. Use these methods to segmentate, add or delete them.
+
+## Bot's clients [/clients]
+
+<!-- include(clients.apib) -->
+
+## Segments [/segments]
+
+<!-- include(segments.apib) -->
+
+## Data Structures
+
+<!-- include(structures.apib) -->

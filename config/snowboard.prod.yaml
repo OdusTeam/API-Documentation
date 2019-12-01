@@ -10,5 +10,5 @@ html:
         auth:
           name: apikey
           options:
-            key: api-dev-key
+            key: <api-dev-key>
             header: X-Api-Key
