@@ -1,65 +1,66 @@
 FORMAT: 1A
-HOST: https://api.odus.ai/api
+HOST: https://api.odus.ai/v1/
 
 # Odus API
-Odus API is organized around [REST](https://en.wikipedia.org/wiki/Representational_State_Transfer). Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+
+Odus API is organized around [REST](https://en.wikipedia.org/wiki/Representational_State_Transfer). 
+Our API has predictable resource-oriented URLs, 
+accepts form-encoded request bodies, returns JSON-encoded responses, 
+and uses standard HTTP response codes, authentication, and verbs.
 
 ## Authentication
-All requiests requires authentication via `X-AUTH-TOKEN` header. You can find **API tokens** section in your [Odus](https://panel.odus.ai/) account.
+
+All requiests requires authentication via `X-AUTH-TOKEN` header. 
+You can find **API tokens** section in your [Odus](https://panel.odus.ai/Profile/tokens) 
+account or at your bot settings.
 
 ## Base URL
 
 All the URLs referenced in the documentation have the following base:
 
-```json
-https://api.odus.ai/api
+```url
+    
+    
+    https://api.odus.ai/v1/
+
 ```
 
 ## Error States
+
 The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
 
 # Group Common
+
+This section describes various helper methods that will help you work with the API
 
 ## Token [/token]
 + Model (application/json)
     + Attributes (Token)
 
 ### Check [GET]
+
+This method allows you to get basic information about the access token you are using, 
+as well as make sure that you have access
+
 + Response 200 (application/json)
     + Attributes (Token)
-
-## Storage [/files]
-+ Model (application/json)
-    + Attributes (Attachment)
-### Upload [POST]
-+ Request (multipart/form-data; boundary=---BOUNDARY)
-
-        -----BOUNDARY
-        Content-Disposition: form-data; name="file"; filename="image.jpg"
-        Content-Type: image/jpeg
-        Content-Transfer-Encoding: base64
-
-        /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
-        HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
-        MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
-        AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
-        AAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AL+AD//Z
-        -----BOUNDARY
-
-+ Response 200 (application/json)
-    + Attributes (Attachment)
 
 # Group Bots
 
 ## Bot Collection [/bots]
-
-**These methods requires token with account access**
 
 + Model (application/json)
     + Attributes
         + bots (array[Bot])
 
 ### List [GET]
+
+There are a lot of situations where you might need a list of all 
+the bots linked to your account, but it's best to use bot-type 
+access tokens to share it with an outsource to prevent access abuse.
+
+> **IMPORTANT**: This method requires token with account access
+
 + Response 200 (application/json)
     + Attributes
         + bots (array[Bot])
@@ -72,10 +73,18 @@ The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-htt
     + Attributes (Bot)
 
 ### Get [GET]
+
+If you need to get general information about the separate bot, try this method
+
 + Response 200 (application/json)
     + Attributes (Bot)
 
 ## Train [PATCH]
+
+Every time you change the structure of your dialogue tree, you are to 
+update the AI-core so it could communicate with your users. That's why 
+it is so important to train bots after each major structure update. 
+
 + Response 200 (application/json)
     + Attributes (Bot)
 
@@ -84,6 +93,7 @@ The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-htt
 Clients are your direct users, your customers. Use these methods to segmentate, add or delete them.
 
 ## Client collection [/bot/{botId}/clients{?locale}{?channel}{?limit}{?offset}]
+
 Collection of all bot's clients.
 
 + Parameters
@@ -137,8 +147,9 @@ Collection of all bot's clients.
         + segments (array[Segment])
 
 ## Segment [/bot/{botId}/segment/{segmentId}]
+
 + Parameters
-    + botId (number) - Uniq bot ID
+    + botId: 105 (number, required) - Uniq bot ID
     + segmentId: 1050 (number, required) - Uniq segment ID
 
 + Model (application/json)
@@ -188,40 +199,58 @@ Collection of all bot's clients.
 
 # Group Messaging
 
-## Instant [/bot/{botId}/message/client/{clientId}/channel/{chennelType}]
+## Instant [/bot/{botId}/client/{clientId}/message]
 + Parameters
-    + botId (number) - Uniq bot ID
+    + botId: 105 (number, required) - Uniq bot ID
     + clientId: 999 (number, required) - Uniq client ID
-    + chennelType: `fb` (string, required) - Chosen channel type
 
 + Model (application/json)
     + Attributes (Message)
 
 ### Text messages [POST]
+
 To send simple text message, you need to provide only `message` parameter. See other requests to find the way how to send buttons and attachments.
+
 + Request (application/json)
-    + Attributes (Message)
-        + message: `Buttons and attachment are optional. If you don't want to use it, just set to null`
-        + buttons: null
-        + attachment: null
+
+    + Body
+    
+            {
+                "type": "fb",
+                "message": "If you need to send plain text, just send request with this option"
+            }
 
 + Response 201 (application/json)
     + Attributes
         + message (Message)
-            + message: `Buttons and attachment are optional. If you don't want to use it, just set to null`
-            + buttons: null
-            + attachment: null
-        + client (Client)
-        + channel (Channel)
             + type: `fb`
+            + message: `If you need to send plain text, just send request with this option`
+            + buttons: null
+        + client (Client)
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "type": "unknown",
+                "message": "Be sure you have configured channel"
+            }
 
 + Response 400 (application/json)
     + Attributes
         + error (ExceptionChannelNotConfigured)
+
+
+        
 ### Buttons [POST]
+
 If it's required, you can provide several types of buttons for you message.
+
 + Request (application/json)
+    
     + Attributes (Message)
+        + type: `tg`
         + message: `Message can't be empty!`
         + buttons (array[Button])
             - (Button)
@@ -236,11 +265,11 @@ If it's required, you can provide several types of buttons for you message.
                 + type: `form`
                 + title: `Redirect to form-block`
                 + target: `50`
-        + attachment: null
 
 + Response 201 (application/json)
     + Attributes
         + message (Message)
+            + type: `tg`
             + message: `Message can't be empty!`
             + buttons (array[Button])
                 - (Button)
@@ -255,34 +284,7 @@ If it's required, you can provide several types of buttons for you message.
                     + type: `form`
                     + title: `Redirect to form-block`
                     + target: `50`
-            + attachment: null
         + client (Client)
-        + channel (Channel)
-            + type: `fb`
-
-### Attachments [POST]
-
-You can send any attachments but requires url of file. If you need to upload your own file read **Common -> Storage** section.
-
-+ Request (application/json)
-    + Attributes (Message)
-        + message: `Message can be empty in this case. Just set it to null`
-        + buttons: null
-        + attachment (Attachment)
-            + type: `image`
-            + url: `https://odus.ai/img/header/2x/logo.png`
-
-+ Response 201 (application/json)
-    + Attributes
-        + message (Message)
-            + message: `Message can be empty in this case. Just set it to null`
-            + buttons: null
-            + attachment (Attachment)
-                + type: `image`
-                + url: `https://odus.ai/img/header/2x/logo.png`
-        + client (Client)
-        + channel (Channel)
-            + type: `fb`
 
 ## Broadcast collection [/bot/{botId}/broadcasts]
 + Parameters
@@ -306,6 +308,7 @@ You can send any attachments but requires url of file. If you need to upload you
     + Attributes (array[Broadcast])
 
 ### Create [POST]
+
 If you want to send broadcast imediatly, set `datetime` property to `null`.
 
 + Request
@@ -384,8 +387,8 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 + is_configured: true (boolean, required) - Is channel configured for bot or already deleted
 
 ### Message
++ type: `fb` (string, required) - Type of channel
 + message: `Simple text example` (string, optional) - Your message
-+ attachment (Attachment, optional, nullable) - Attachment url, if required 
 + buttons (array[Button], optional, nullable) - Buttons
 
 ### Button
@@ -423,6 +426,10 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
     - bot
     - account
 + target: 546 (number) - Bot or Account ID.
+
+### ExceptionAccessForbbiden
++ code: `forbidden` (string)
++ message: `You have no access to this method` (string)
 
 ### ExceptionSegmentNotFound
 + code: `segment_not_found` (string)
