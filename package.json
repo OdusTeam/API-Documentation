@@ -1,4 +1,8 @@
 {
+  "engines": {
+    "node": "^8.2",
+    "npm": "^6.0"
+  },
   "dependencies": {
     "dredd": "^12.2.0",
     "getenv": "^1.0.0",
