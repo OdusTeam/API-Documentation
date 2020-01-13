@@ -1,28 +1,28 @@
 html:
-  stylesheets:
-    - assets/css/style.css
+  sidebar:
+    groupOrder: "auto"
   playground:
     enabled: true
     env: development
     environments:
       development:
-        url: http://127.0.0.1:8000/api/
+        url: http://127.0.0.1:8000/v1
         auth:
           name: apikey
           options:
-            key: 9fbbdf92b92d1147c7bbf3e66bb0b377
+            key: yV_Y_mSKBkbCbdsw7S64oVnm5tGRQoQRuQNPoHPCU40
             header: X-AUTH-TOKEN
       staging:
-        url: https://he110.odus.ai/api/
+        url: https://he110.odus.ai/v1
         auth:
           name: apikey
           options:
-            key: 9fbbdf92b92d1147c7bbf3e66bb0b377
+            key: yV_Y_mSKBkbCbdsw7S64oVnm5tGRQoQRuQNPoHPCU40
             header: X-AUTH-TOKEN
       production:
-        url: https://api.odus.ai/api/
+        url: https://api.odus.ai/v1
         auth:
           name: apikey
           options:
-            key: <api-key>
+            key: yV_Y_mSKBkbCbdsw7S64oVnm5tGRQoQRuQNPoHPCU40
             header: X-AUTH-TOKEN

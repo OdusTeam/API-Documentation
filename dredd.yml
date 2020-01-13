@@ -3,7 +3,7 @@ dry-run: null
 hookfiles: null
 language: nodejs
 require: null
-server: null
+server: npm start
 server-wait: 3
 init: false
 custom: {}
@@ -28,5 +28,5 @@ hooks-worker-term-retry: 500
 hooks-worker-handler-host: 127.0.0.1
 hooks-worker-handler-port: 61321
 config: ./dredd.yml
-blueprint: docs/*
+blueprint: docs/index.apib
 endpoint: 'https://he110.odus.ai/v1'
