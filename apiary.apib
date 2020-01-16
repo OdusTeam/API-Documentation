@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://api.odus.ai/v1/
+HOST: https://api.odus.ai/v1
 
 # Odus API
 
@@ -67,7 +67,7 @@ access tokens to share it with an outsource to prevent access abuse.
 
 ## Bot [/bot/{botId}]
 + Parameters
-    + botId (number, required) - Uniq bot ID
+    + botId: 105 (number, required) - Uniq bot ID
 
 + Model (application/json)
     + Attributes (Bot)
@@ -79,7 +79,7 @@ If you need to get general information about the separate bot, try this method
 + Response 200 (application/json)
     + Attributes (Bot)
 
-## Train [PATCH]
+### Train [PATCH]
 
 Every time you change the structure of your dialogue tree, you are to 
 update the AI-core so it could communicate with your users. That's why 
@@ -97,7 +97,7 @@ Clients are your direct users, your customers. Use these methods to segmentate, 
 Collection of all bot's clients.
 
 + Parameters
-    + botId (number) - Uniq bot ID
+    + botId: 105 (number) - Uniq bot ID
 
 + Model (application/json)
     + Attributes
@@ -117,7 +117,7 @@ Collection of all bot's clients.
 
 ## Client [/bot/{botId}/client/{clientId}]
 + Parameters
-    + botId (number, required) - Uniq bot ID
+    + botId: 105 (number, required) - Uniq bot ID
     + clientId: 999 (number, required) - Uniq client ID
 
 + Model (application/json)
@@ -135,7 +135,7 @@ Collection of all bot's clients.
 
 ## Segment Collection [/bot/{botId}/segments]
 + Parameters
-    + botId (number) - Uniq bot ID
+    + botId: 105 (number) - Uniq bot ID
 
 + Model (application/json)
     + Attributes
@@ -242,11 +242,6 @@ To send simple text message, you need to provide only `message` parameter. See o
         + error (ExceptionChannelNotConfigured)
 
 
-        
-### Buttons [POST]
-
-If it's required, you can provide several types of buttons for you message.
-
 + Request (application/json)
     
     + Attributes (Message)
@@ -288,7 +283,7 @@ If it's required, you can provide several types of buttons for you message.
 
 ## Broadcast collection [/bot/{botId}/broadcasts]
 + Parameters
-    + botId (number) - Uniq bot ID
+    + botId: 105 (number) - Uniq bot ID
     
 + Model (application/json)
     + Attributes
@@ -319,8 +314,8 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 
 ## Broadcast [/bot/{botId}/broadcast/{broadcastId}]
 + Parameters
-    + botId (number, required) - Uniq bot ID
-    + broadcastId (number, required) - Uniq broadcast ID
+    + botId: 105 (number, required) - Uniq bot ID
+    + broadcastId: 52 (number, required) - Uniq broadcast ID
 
 + Model (application/json)
     + Attributes (Broadcast)
