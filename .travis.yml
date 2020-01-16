@@ -5,5 +5,5 @@ before_install:
   - npm install dredd@12.1.0 --global
 script:
   - composer very-build
-before_script:
-  - dredd --config config/dredd.yml --hookfiles=./assets/js/dredd.js
+# before_script:
+#   - dredd --config config/dredd.yml --hookfiles=./assets/js/dredd.js
