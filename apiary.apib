@@ -20,7 +20,6 @@ All the URLs referenced in the documentation have the following base:
 
 ```url
     
-    
     https://api.odus.ai/v1/
 
 ```
@@ -306,8 +305,26 @@ To send simple text message, you need to provide only `message` parameter. See o
 
 If you want to send broadcast imediatly, set `datetime` property to `null`.
 
-+ Request
-    + Attributes (Broadcast)
++ Request (application/json)
+
+    + Body
+    
+            {
+                "message": {
+                    "message": "Hey! I'm broadcast message",
+                    "buttons": [
+                        {
+                            "type": "text",
+                            "title": "Hi!"
+                        }
+                    ]
+                },
+                "channels": [
+                    "tg"
+                ],
+                "segments": [],
+                "datetime": "2014-11-11T08:40:51.620Z"
+            }
 
 + Response 201 (application/json)
     + Attributes (Broadcast)
@@ -382,7 +399,6 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 + is_configured: true (boolean, required) - Is channel configured for bot or already deleted
 
 ### Message
-+ type: `fb` (string, required) - Type of channel
 + message: `Simple text example` (string, optional) - Your message
 + buttons (array[Button], optional, nullable) - Buttons
 
