@@ -10,9 +10,9 @@ and uses standard HTTP response codes, authentication, and verbs.
 
 ## Authentication
 
-All requiests requires authentication via `X-AUTH-TOKEN` header. 
+All requiests require authentication via `X-AUTH-TOKEN` header. 
 You can find **API tokens** section in your [Odus](https://panel.odus.ai/Profile/tokens) 
-account or at your bot settings.
+account or your bot settings.
 
 ## Base URL
 
@@ -26,7 +26,7 @@ All the URLs referenced in the documentation have the following base:
 
 ## Postman Collection
 
-You can use our [API collection](https://docs.odus.ai/OdusAPI.json) to easier integration implementation.
+You can use our [API collection](https://docs.odus.ai/OdusAPI.json) for easier integration implementation.
 
 ## Webhooks and events
 
@@ -39,7 +39,7 @@ The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-htt
 
 # Group Common
 
-This section describes various helper methods that will help you work with the API
+This section describes various methods that will help you work with the API
 
 ## Token [/token]
 + Model (application/json)
@@ -75,7 +75,7 @@ access tokens to share it with an outsource to prevent access abuse.
 
 ## Bot [/bot/{botId}]
 + Parameters
-    + botId: 105 (number, required) - Uniq bot ID
+    + botId: 105 (number, required) - Unique bot ID
 
 + Model (application/json)
     + Attributes (Bot)
@@ -98,14 +98,14 @@ it is so important to train bots after each major structure update.
 
 # Group Client management
 
-Clients are your direct users, your customers. Use these methods to segmentate, add or delete them.
+Clients are your direct users, your customers. Use these methods to segment, add or delete them.
 
 ## Client collection [/bot/{botId}/clients{?locale}{?channel}{?limit}{?offset}]
 
-Collection of all bot's clients.
+Collection of all clients of the bot.
 
 + Parameters
-    + botId: 105 (number) - Uniq bot ID
+    + botId: 105 (number) - Unique bot ID
 
 + Model (application/json)
     + Attributes
@@ -125,8 +125,8 @@ Collection of all bot's clients.
 
 ## Client [/bot/{botId}/client/{clientId}]
 + Parameters
-    + botId: 105 (number, required) - Uniq bot ID
-    + clientId: 999 (number, required) - Uniq client ID
+    + botId: 105 (number, required) - Unique bot ID
+    + clientId: 999 (number, required) - Unique client ID
 
 + Model (application/json)
     + Attributes (Client)
@@ -143,7 +143,7 @@ Collection of all bot's clients.
 
 ## Segment Collection [/bot/{botId}/segments]
 + Parameters
-    + botId: 105 (number) - Uniq bot ID
+    + botId: 105 (number) - Unique bot ID
 
 + Model (application/json)
     + Attributes
@@ -157,8 +157,8 @@ Collection of all bot's clients.
 ## Segment [/bot/{botId}/segment/{segmentId}]
 
 + Parameters
-    + botId: 105 (number, required) - Uniq bot ID
-    + segmentId: 1050 (number, required) - Uniq segment ID
+    + botId: 105 (number, required) - Unique bot ID
+    + segmentId: 1050 (number, required) - Unique segment ID
 
 + Model (application/json)
     + Attributes (Segment)
@@ -181,7 +181,7 @@ Collection of all bot's clients.
 
 ### Add client [PUT /bot/{botId}/segment/{segmentId}/client/{clientId}]
 + Parameters
-    + clientId: 999 (number, required) - Uniq client ID
+    + clientId: 999 (number, required) - Unique client ID
 
 + Response 200 (application/json)
     + Attributes
@@ -194,7 +194,7 @@ Collection of all bot's clients.
 
 ### Remove client [DELETE /bot/{botId}/segment/{segmentId}/client/{clientId}]
 + Parameters
-    + clientId: 999 (number, required) - Uniq client ID
+    + clientId: 999 (number, required) - Unique client ID
 
 + Response 200 (application/json)
     + Attributes
@@ -209,15 +209,15 @@ Collection of all bot's clients.
 
 ## Instant [/bot/{botId}/client/{clientId}/message]
 + Parameters
-    + botId: 105 (number, required) - Uniq bot ID
-    + clientId: 999 (number, required) - Uniq client ID
+    + botId: 105 (number, required) - Unique bot ID
+    + clientId: 999 (number, required) - Unique client ID
 
 + Model (application/json)
     + Attributes (Message)
 
 ### Text messages [POST]
 
-To send simple text message, you need to provide only `message` parameter. See other requests to find the way how to send buttons and attachments.
+To send a simple text message, you need to provide only a `message` parameter. See other requests to find the way how to send buttons and attachments.
 
 + Request (application/json)
 
@@ -291,7 +291,7 @@ To send simple text message, you need to provide only `message` parameter. See o
 
 ## Broadcast collection [/bot/{botId}/broadcasts]
 + Parameters
-    + botId: 105 (number) - Uniq bot ID
+    + botId: 105 (number) - Unique bot ID
     
 + Model (application/json)
     + Attributes
@@ -312,7 +312,7 @@ To send simple text message, you need to provide only `message` parameter. See o
 
 ### Create [POST]
 
-If you want to send broadcast imediatly, set `datetime` property to `null`.
+If you want to send a broadcast immediately, set `datetime` property to `null`.
 
 + Request (application/json)
 
@@ -340,8 +340,8 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 
 ## Broadcast [/bot/{botId}/broadcast/{broadcastId}]
 + Parameters
-    + botId: 105 (number, required) - Uniq bot ID
-    + broadcastId: 52 (number, required) - Uniq broadcast ID
+    + botId: 105 (number, required) - Unique bot ID
+    + broadcastId: 52 (number, required) - Unique broadcast ID
 
 + Model (application/json)
     + Attributes (Broadcast)
@@ -376,14 +376,14 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 ## Data Structures
 
 ### Bot
-+ id: 105 (number) - Uniq bot ID
++ id: 105 (number) - Unique bot ID
 + name: `API Demo bot` (string) - Your bot's name
 + avatar: `https://panel.odus.ai/bots/81/bot_file_3b672035fbed7a9d93c691469a6a75a1.png` (string, optional) - Url of bot's avatar or null
 + users: 1024 (number) - Amount of all users
 + weekly_active: 726 (number) - Amount of weekly active users
 
 ### Client
-+ id: 999 (number) - Uniq client ID
++ id: 999 (number) - Unique client ID
 + name: `James E. Herman` (string) - Client's name
 + locale: `US` (string, optional) - Locale code (ISO 639-1), if detected 
 + signed_up: `2014-11-11T08:40:51.620Z` (string) - Date and time, when client signed signed up 
@@ -392,7 +392,7 @@ If you want to send broadcast imediatly, set `datetime` property to `null`.
 + channels (array[Channel])
 
 ### Segment
-+ id: 1050 (number) - Uniq segment ID
++ id: 1050 (number) - Unique segment ID
 + name: `Customers` (string, required) - Segment's name
 + description: `Those users who bought something at least once` (string, optional) - Description
 + users: 67 (number) - Amount of users in segment
